@@ -8,5 +8,8 @@ class CustomUser(AbstractUser):
         ('assembly', 'Assembly User'),
     )
     
+    name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
     user_type = models.CharField(max_length=14, choices=USER_TYPE_CHOICES)
     is_super_user = models.BooleanField(default=False)
+    
