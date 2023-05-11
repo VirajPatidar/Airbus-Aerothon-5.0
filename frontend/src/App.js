@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 
-// import Navbar from './components/navbar';
+import Navbar from './components/navbar';
 import NotFound from './components/notFound';
 import Home from './components/home';
 import Test from './components/test';
@@ -22,7 +22,7 @@ const theme = createTheme({
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            {/* <Navbar /> */}
+            <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} exact />
                 <Route path="/test" element={<Test />} exact />
