@@ -69,10 +69,12 @@ class FabricationDataView(APIView):
         return Response(
             {"message": "Fabrication entry created successfully"}, status=201
         )
-    @permission_classes([SuperFabricationPermission])
+
+    # @permission_classes([SuperFabricationPermission])
     def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
+        self.permission_classes = SuperFabricationPermission
         id_list = request.data.get("id_list")
 
         # Retrieve the Assembly objects based on the specified IDs
@@ -140,9 +142,10 @@ class SubAssemblyDataView(APIView):
         return Response(
             {"message": "SubAssembly entry created successfully"}, status=201
         )
-        
-    @permission_classes([SuperAssemblyPermission])
+
+    # SuperAssemblyPermission
     def patch(self, request):
+        self.permission_classes = SuperSubAssemblyPermission
         # Logic to update Assembly entry
         # Retrieve data from the request data
         id_list = request.data.get("id_list")
@@ -210,8 +213,9 @@ class AssemblyDataView(APIView):
         # Return a success response
         return Response({"message": "Assembly entry created successfully"}, status=201)
 
-    @permission_classes([SuperAssemblyPermission])
+    # @permission_classes([SuperAssemblyPermission])
     def patch(self, request):
+        self.permission_classes = SuperAssemblyPermission
         # Logic to update Assembly entry
         # Retrieve data from the request data
         id_list = request.data.get("id_list")
