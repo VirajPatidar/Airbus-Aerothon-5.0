@@ -1,5 +1,5 @@
 # to populate on cmd
-# python manage.py shell > scripts/assembly.py
+# python manage.py shell > scripts/populate_fabrication.py
 
 process_assembly = [
     "Component Integration",
@@ -41,17 +41,26 @@ raw_materials = [
 ]
 quantity = ["10 sqft", "10 kg", "5 kg/m3", "24 gauge", "3 kg ", "ingots—20", "2 kg"]
 
-from manufactory.models import Assembly, SubAssembly, Fabrication
+from manufactory.models import Assembly, SubAssembly, Fabrication, Machine
 import random
 
-for item, raw_material, quant in zip(items, raw_materials, quantity):
-    Fabrication.objects.create(item=item, raw_material=raw_material, quantity=quant)
+# for item, raw_material, quant in zip(items, raw_materials, quantity):
+#     Fabrication.objects.create(item=item, raw_material=raw_material, quantity=quant)
 
+machines = Machine.objects.all()
+total_machin_count=machines.count()-1
+fabicrations = Fabrication.objects.all()
+for i in range(len(process_subassembly)):
 
-# for process in process_subassembly:
+    _ = SubAssembly.objects.create(
+        process=process_subassembly[i],
+        machine=machines[i],
+        fabrication=fabicrations[i],
+    )
+    Assembly.objects.create(
+        process=process_assembly[random.randint(0, len(process_assembly) - 1)],
+        subassembly=_,
+        machine=machines[total_machin_count-i],
+    )
 
-#     SubAssembly.objects.create(
-#         process=process,
-#         machine_id=random.randint(1, 10),
-#         fabrication_id=random.randint(1, 10),
-#     )
+# to populate Assembly
