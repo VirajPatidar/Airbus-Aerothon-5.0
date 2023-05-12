@@ -82,16 +82,16 @@ class FabricationDataView(APIView):
 
         # Prepare the bulk update data
         bulk_update_data = [
-            Fabrication(item_id=assembly.item_id, old_date=current_datetime)
+            Fabrication(item_id=assembly.item_id, out_date=current_datetime)
             for assembly in fabrications
         ]
         # print(bulk_update_data)
         # for a in bulk_update_data:
-        #     print("cajknajnds", a.old_date)
+        #     print("cajknajnds", a.out_date)
         # Perform the bulk update
-        Fabrication.objects.bulk_update(bulk_update_data, ["old_date"])
+        Fabrication.objects.bulk_update(bulk_update_data, ["out_date"])
         print("aaya 1")
-        return Response({"message": "Assembly updated successfully"}, status=201)
+        return Response({"message": "Fabrication updated successfully"}, status=201)
 
 # SubAssenmbly
 class SubAssemblyDataView(APIView):
@@ -191,10 +191,10 @@ class AssemblyDataView(APIView):
         # Retrieve data from the request data
         process = request.data.get("process")
         machine_id = request.data.get("machine_id")
-        subassembly_id = request.get("subassembly_id")
+        subassembly_id = request.data.get("subassembly_id")
 
-        subassembly = Subassembly.objects.get(subassembly_id=subassembly_id) 
-        machine = Machine.objects.get(id='machine_id')
+        subassembly = SubAssembly.objects.get(assembly_id=subassembly_id) 
+        machine = Machine.objects.get(id=machine_id)
 
         if not Fabrication or not machine:
             return Response({"message": "Invalid Id"},status=404)
