@@ -111,7 +111,7 @@ class AssemblyDataView(APIView):
         # user = get_user_from_request(request)
 
         assemblys = Assembly.objects.filter(end_date__isnull=True)
-        serilizer = AssemblySerializer(Assemblys, many=True)
+        serilizer = AssemblySerializer(assemblys, many=True)
 
         response_msg = {"quantity": assemblys.count(), "data": serilizer.data}
 
@@ -194,11 +194,11 @@ class ApprovedDataView(APIView):
             },
             'sub_assembly':{
                 "quantity": sub_assembly.count(),
-                "data": sub_assembly_data_data
+                "data": sub_assembly_data
             },
             'assembly':{
                 "quantity": assembly.count(),
-                "data": assembly_data_data
+                "data": assembly_data
             }
             }
 
