@@ -1,8 +1,10 @@
+import { Container } from "@mui/material";
+
 const FabricationDashboard = () => {
     return (
-        <>
-            Fabrication Dashboard
-        </>
+        <Container>
+            
+        </Container>
     );
 }
 

@@ -163,17 +163,6 @@ export default function Login() {
                                 setOpen(true);
                             }
                         });
-
-                    setUser({
-                        name: res.data.name,
-                        email: res.data.email,
-                        employment: res.data.employment,
-                        id: res.data.teacher_id || res.data.other_id,
-                        user_id: res.data.user_id,
-                        user_type: res.data.user_type,
-                    });
-                    setLogin(true);
-                    navigate("/dashboard/question");
                 })
                 .catch((err) => {
                     console.log(err);

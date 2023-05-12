@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRecoilState, } from 'recoil';
 import { isLoggedIn, userData } from '../atoms';
+import axios from 'axios';
 
 // MUI
 import AppBar from '@mui/material/AppBar';
@@ -14,9 +15,9 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import HubIcon from '@mui/icons-material/Hub';
+import { deepOrange } from '@mui/material/colors';
 import { AccountCircle, Dashboard, Logout } from '@mui/icons-material';
 import { Divider, Link, ListItemIcon } from '@mui/material';
-import axios from 'axios';
 
 
 function Navbar() {
@@ -31,7 +32,7 @@ function Navbar() {
     };
 
     const [user, setUser] = useRecoilState(userData);
-    const [LoggedIn, setLogin] = useRecoilState(isLoggedIn);
+    const [login, setLogin] = useRecoilState(isLoggedIn);
 
     const handleLogout = () => {
         setUser({});
@@ -80,11 +81,11 @@ function Navbar() {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     </Box>
-                    {LoggedIn &&
+                    {login &&
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar sx={{ bgcolor: deepOrange[500] }} alt={user.name[0]} src="/static/images/avatar/2.jpg" />
                                 </IconButton>
                             </Tooltip>
                             <Menu
