@@ -259,7 +259,7 @@ class AssemblyDataView(APIView):
 
 
 class ApprovedDataView(APIView):
-    permission_classes = (IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)
