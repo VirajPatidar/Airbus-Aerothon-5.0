@@ -173,3 +173,37 @@ class AssemblyDataView(APIView):
 
 #         response_code = 200
 #         return Response(response_msg, response_code)
+
+
+class ApprovedDataView(APIView):
+    def get(self,request):
+        # Logic to retrieve Fabrication data
+        # user = get_user_from_request(request)
+
+        fabrications = Fabrication.objects.filter(out_date__isnull=False)
+        fabrications_data = FabricationSerializer(fabrications, many=True).data
+        sub_assembly = SubAssembly.objects.filter(end_date__isnull=False)
+        sub_assembly_data = SubAssemblySerializer(sub_assembly, many=True).data
+        assembly = Assembly.objects.filter(end_date__isnull=False)
+        assembly_data = AssemblySerializer(assembly, many=True).data
+
+        response_msg = {
+            'fabrications':{
+                "quantity": fabrications.count(),
+                "data": fabrications_data
+            },
+            'sub_assembly':{
+                "quantity": sub_assembly.count(),
+                "data": sub_assembly_data_data
+            },
+            'assembly':{
+                "quantity": assembly.count(),
+                "data": assembly_data_data
+            }
+            }
+
+        response_code = 200
+
+        return Response(response_msg, response_code)
+
+
