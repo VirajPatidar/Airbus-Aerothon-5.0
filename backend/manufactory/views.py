@@ -57,7 +57,6 @@ class FabricationDataView(APIView):
         item = request.data.get("item")
         raw_material = request.data.get("raw_material")
         quantity = request.data.get("quantity")
-        print(item,"itemitem item")
         # Create the new Fabrication entry
         new_fabrication = Fabrication.objects.create(
             item=item,
@@ -114,31 +113,38 @@ class SubAssemblyDataView(APIView):
         # Logic to create a new SubAssembly entry
         # Retrieve data from the request data
         process = request.data.get("process")
-        machine_id = request.data.get("machine_id")
 
+        #get machin info
+        machine_id = request.data.get("machine_id")
         # get fabrication info
         item_id = request.data.get("item_id")
 
+        fabrication = Fabrication.objects.get(item_id=item_id) 
+        machine = Machine.objects.get(id='machine_id')
+
+        if not Fabrication or not machine:
+            return Response({"message": "Invalid Id"},status=404)
 
 
         # Create the new SubAssembly entry
         new_SubAssembly = SubAssembly.objects.create(
-            item=item,
-            raw_material=raw_material,
-            quantity=quantity,
+            process=process,
+            fabrication=fabrication,
+            machine=machine_id
         )
 
         # Return a success response
         return Response(
             {"message": "SubAssembly entry created successfully"}, status=201
         )
+
     def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
         id_list = request.data.get("id_list")
 
         # Retrieve the Assembly objects based on the specified IDs
-        assemblies = SubAssembly.objects.filter(machine_id__in=id_list)
+        assemblies = SubAssembly.objects.filter(assembly_id__in=id_list)
 
         # Update the end_date field to the current datetime
         current_datetime = timezone.now()
@@ -147,7 +153,7 @@ class SubAssemblyDataView(APIView):
 
         # Prepare the bulk update data
         bulk_update_data = [
-            SubAssembly(machine_id=subassembly.machine_id, end_date=current_datetime)
+            SubAssembly(assembly_id=subassembly.assembly_id, end_date=current_datetime)
             for subassembly in assemblies
         ]
         print(bulk_update_data)
@@ -183,11 +189,18 @@ class AssemblyDataView(APIView):
         # Retrieve data from the request data
         process = request.data.get("process")
         machine_id = request.data.get("machine_id")
+        subassembly_id = request.get("subassembly_id")
 
+        subassembly = Subassembly.objects.get(subassembly_id=subassembly_id) 
+        machine = Machine.objects.get(id='machine_id')
+
+        if not Fabrication or not machine:
+            return Response({"message": "Invalid Id"},status=404)
         # Create the new Assembly entry
         new_assembly = Assembly.objects.create(
+            machine=machine,
+            subassembly=subassembly,
             process=process,
-            machine_id=machine_id,
         )
 
         # Return a success response
@@ -200,7 +213,7 @@ class AssemblyDataView(APIView):
         id_list = request.data.get("id_list")
 
         # Retrieve the Assembly objects based on the specified IDs
-        assemblies = Assembly.objects.filter(machine_id__in=id_list)
+        assemblies = Assembly.objects.filter(id__in=id_list)
 
         # Update the end_date field to the current datetime
         current_datetime = timezone.now()
@@ -209,7 +222,7 @@ class AssemblyDataView(APIView):
 
         # Prepare the bulk update data
         bulk_update_data = [
-            Assembly(machine_id=assembly.machine_id, end_date=current_datetime)
+            Assembly(id=assembly.id, end_date=current_datetime)
             for assembly in assemblies
         ]
         print(bulk_update_data)

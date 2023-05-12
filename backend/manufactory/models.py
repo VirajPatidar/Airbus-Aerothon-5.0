@@ -14,12 +14,20 @@ class Fabrication(models.Model):
         return self.item
 
 
+class Machine(models.Model):
+    machine_code = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    model_number = models.CharField(max_length=50,null=True, blank=True)
+    machine_type = models.CharField(max_length=50,null=True, blank=True)
+
+
 class SubAssembly(models.Model):
     assembly_id = models.AutoField(primary_key=True)
     fibrication=models.ForeignKey(Fabrication, verbose_name="Related Fabrication", null=True, on_delete=models.CASCADE)
     process = models.CharField(max_length=255)   # consider adding this to foregin key and make model
     # item_id = models.CharField(max_length=50)   # change this to Foregin key after discussion
-    machine_id = models.CharField(max_length=50)
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True)
 
@@ -28,6 +36,10 @@ class SubAssembly(models.Model):
     def get_item_id(self):
         if self.fibrication is not None:
             return self.fibrication.item
+        return None
+    def get_machine_id(self):
+        if self.machine is not None:
+            return self.machine.machine_code
         return None
 
 
@@ -43,10 +55,8 @@ class SubAssembly(models.Model):
 #         return f"{self.class_id} #### {self.student_id}" 
 
 
-
-
 class Assembly(models.Model):
-    machine_id = models.AutoField(primary_key=True)   
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     subassembly = models.ForeignKey(SubAssembly, verbose_name="Reverse SubAssembly",on_delete=models.CASCADE, null=True)   # consider this as Foregin key
     process = models.CharField(max_length=255)
     start_date = models.DateTimeField(auto_now_add=True)
@@ -57,7 +67,14 @@ class Assembly(models.Model):
 
     def get_process_id(self):
         if self.subassembly is not None:
-            return self.subassembly.assembly_id + self.subassembly.machine_id
+            return "SAW"+self.subassembly.assembly_id + self.subassembly.get_machine_id()
         return None
+    def get_machine_id(self):
+        if self.machine is not None:
+            return self.machine.machine_code
+        return None
+
+
+
 
 
