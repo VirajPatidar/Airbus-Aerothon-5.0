@@ -55,9 +55,7 @@ for _ in range(10):
     machine_description = generate_machine_description()
     machine_model_number = generate_machine_model_number()
     machine_type = generate_machine_type()
-
-    washing_machine = (machine_code, machine_name, machine_description, machine_model_number, machine_type)
-    washing_machines.append(washing_machine)
+    washing_machine = (machine_code, machine_name, machine_description, machine_model_number, machine_type);washing_machines.append(washing_machine)
 
 print(washing_machines)
 

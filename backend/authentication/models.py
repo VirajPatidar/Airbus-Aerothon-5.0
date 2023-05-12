@@ -39,11 +39,12 @@ class UserAccountManager(BaseUserManager):
             is_officer = True,
             user_type = 'fabrication',
             password=password,
-            staff=True,
-            admin = True,
-             **kwargs
+            is_staff=True,
+            is_active = True,
+            is_admin = True,
+            is_superuser = True,
+            **kwargs
         )
-        user.is_superuser = True
         return user
 
 
