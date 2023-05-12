@@ -9,7 +9,7 @@ import Unauthorized from './components/unauthorized';
 import Login from './components/auth/login';
 import ProtectedRoutes from './components/auth/ProtectedRoutes';
 import FabricationDashboard from './components/dashboards/fabrication/fabricationDashboard';
-import SubAssemblyDashboard from './components/dashboards/subAssembly/subAssembly';
+import SubAssemblyDashboard from './components/dashboards/subAssembly/subAssemblyDashboard';
 import AssemblyDashboard from './components/dashboards/assembly/assemblyDashboard';
 
 // MUI
