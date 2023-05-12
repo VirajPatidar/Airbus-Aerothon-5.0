@@ -28,9 +28,9 @@ class SubAssembly(models.Model):
 
 
 class Assembly(models.Model):
-    process_id = models.AutoField(primary_key=True)
+    machine_id = models.AutoField(primary_key=True)   
+    process_id = models.AutoField(max_length=255)   # consider this as Foregin key
     process = models.CharField(max_length=255)
-    machine_id = models.CharField(max_length=50)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(null=True, blank=True)
     
