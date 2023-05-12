@@ -15,7 +15,12 @@ from authentication.permissions import (
     SuperFabricationPermission,
     SuperSubAssemblyPermission,
 )
-from .serializer import AssemblySerializer, FabricationSerializer, SubAssemblySerializer, MachineSerializer
+from .serializer import (
+    AssemblySerializer,
+    FabricationSerializer,
+    SubAssemblySerializer,
+    MachineSerializer,
+)
 from .models import Fabrication, SubAssembly, Assembly, Machine
 
 from authentication.permissions import (
@@ -23,6 +28,7 @@ from authentication.permissions import (
     SuperFabricationPermission,
     AssemblyPermission,
 )
+
 
 def get_user_from_request(request):
     # change this when auth is implemented
@@ -35,6 +41,7 @@ def get_user_from_request(request):
 # Fabiraction view
 class FabricationDataView(APIView):
     permission_classes = (IsAuthenticated, FabricationPermission)
+
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)
@@ -93,9 +100,11 @@ class FabricationDataView(APIView):
         print("aaya 1")
         return Response({"message": "Fabrication updated successfully"}, status=201)
 
+
 # SubAssenmbly
 class SubAssemblyDataView(APIView):
     permission_classes = (IsAuthenticated, SubAssemblyPermission)
+
     def get(self, request):
         # Logic to retrieve SubAssembly data
         # user = get_user_from_request(request)
@@ -114,23 +123,20 @@ class SubAssemblyDataView(APIView):
         # Retrieve data from the request data
         process = request.data.get("process")
 
-        #get machin info
+        # get machin info
         machine_id = request.data.get("machine_id")
         # get fabrication info
         item_id = request.data.get("item_id")
 
-        fabrication = Fabrication.objects.get(item_id=item_id) 
-        machine = Machine.objects.get(id='machine_id')
+        fabrication = Fabrication.objects.get(item_id=item_id)
+        machine = Machine.objects.get(id=machine_id)
 
         if not Fabrication or not machine:
-            return Response({"message": "Invalid Id"},status=404)
-
+            return Response({"message": "Invalid Id"}, status=404)
 
         # Create the new SubAssembly entry
         new_SubAssembly = SubAssembly.objects.create(
-            process=process,
-            fabrication=fabrication,
-            machine=machine_id
+            process=process, fabrication=fabrication, machine=machine
         )
 
         # Return a success response
@@ -166,13 +172,12 @@ class SubAssemblyDataView(APIView):
         print("aaya 1")
         return Response({"message": "SubAssembly updated successfully"}, status=201)
 
-      
-
 
 # Assembly
 class AssemblyDataView(APIView):
 
     permission_classes = (IsAuthenticated, AssemblyPermission)
+
     def get(self, request):
         # Logic to retrieve Assembly data
         # user = get_user_from_request(request)
@@ -193,11 +198,11 @@ class AssemblyDataView(APIView):
         machine_id = request.data.get("machine_id")
         subassembly_id = request.data.get("subassembly_id")
 
-        subassembly = SubAssembly.objects.get(assembly_id=subassembly_id) 
+        subassembly = SubAssembly.objects.get(assembly_id=subassembly_id)
         machine = Machine.objects.get(id=machine_id)
 
         if not Fabrication or not machine:
-            return Response({"message": "Invalid Id"},status=404)
+            return Response({"message": "Invalid Id"}, status=404)
         # Create the new Assembly entry
         new_assembly = Assembly.objects.create(
             machine=machine,
@@ -255,6 +260,7 @@ class AssemblyDataView(APIView):
 
 class ApprovedDataView(APIView):
     permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)
