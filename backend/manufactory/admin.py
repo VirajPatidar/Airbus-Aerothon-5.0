@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Fabrication, SubAssembly, Assembly
 
-# Register your models here.
+admin.site.register(Fabrication)
+admin.site.register(SubAssembly)
+admin.site.register(Assembly)
