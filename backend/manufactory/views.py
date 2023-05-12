@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.utils import timezone
+from django.db.models import F
 from authentication.models import CustomUser
 from rest_framework.decorators import permission_classes
 import rest_framework.permissions
@@ -128,7 +130,7 @@ class AssemblyDataView(APIView):
         # Create the new Assembly entry
         new_assembly = Assembly.objects.create(
             process=process,
-            machine_id=raw_material,
+            machine_id=machine_id,
         )
 
         # Return a success response
@@ -138,25 +140,28 @@ class AssemblyDataView(APIView):
     def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
-        id_list = request.data.get("id_;list")
+        id_list = request.data.get("id_list")
 
         # Retrieve the Assembly objects based on the specified IDs
-        assemblies = Assembly.objects.filter(process_id__in=ids)
+        assemblies = Assembly.objects.filter(machine_id__in=id_list)
 
         # Update the end_date field to the current datetime
         current_datetime = timezone.now()
-        for assembly in assemblies:
-            assembly.end_date = current_datetime
+        # for assembly in assemblies:
+        #     assembly.end_date = current_datetime
 
         # Prepare the bulk update data
         bulk_update_data = [
-            Assembly(id=assembly.id, end_date=F("end_date")) for assembly in assemblies
+            Assembly(machine_id=assembly.machine_id, end_date=current_datetime)
+            for assembly in assemblies
         ]
-
+        print(bulk_update_data)
+        for a in bulk_update_data:
+            print("cajknajnds", a.end_date)
         # Perform the bulk update
         Assembly.objects.bulk_update(bulk_update_data, ["end_date"])
-
-        Response({"message": "Assembly updated successfully"}, status=201)
+        print("aaya 1")
+        return Response({"message": "Assembly updated successfully"}, status=201)
 
 
 ## implement above in One view
@@ -176,7 +181,7 @@ class AssemblyDataView(APIView):
 
 
 class ApprovedDataView(APIView):
-    def get(self,request):
+    def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)
 
@@ -188,22 +193,17 @@ class ApprovedDataView(APIView):
         assembly_data = AssemblySerializer(assembly, many=True).data
 
         response_msg = {
-            'fabrications':{
+            "fabrications": {
                 "quantity": fabrications.count(),
-                "data": fabrications_data
+                "data": fabrications_data,
             },
-            'sub_assembly':{
+            "sub_assembly": {
                 "quantity": sub_assembly.count(),
-                "data": sub_assembly_data
+                "data": sub_assembly_data,
             },
-            'assembly':{
-                "quantity": assembly.count(),
-                "data": assembly_data
-            }
-            }
+            "assembly": {"quantity": assembly.count(), "data": assembly_data},
+        }
 
         response_code = 200
 
         return Response(response_msg, response_code)
-
-
