@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Fabrication, SubAssembly, Assembly
+from .models import Fabrication, SubAssembly, Assembly, Machine
 
 
 ## TODO improve as required
@@ -26,3 +26,9 @@ class AssemblySerializer(serializers.ModelSerializer):
     class Meta:
         model = Assembly
         fields = ['machine_id', 'subassembly', 'subassembly_id', 'process', 'start_date', 'end_date']
+
+
+class MachineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Machine
+        fields = '__all__'

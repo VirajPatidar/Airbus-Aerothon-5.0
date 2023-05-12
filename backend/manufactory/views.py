@@ -15,8 +15,8 @@ from authentication.permissions import (
     SuperFabricationPermission,
     SuperSubAssemblyPermission,
 )
-from .serializer import AssemblySerializer, FabricationSerializer, SubAssemblySerializer
-from .models import Fabrication, SubAssembly, Assembly
+from .serializer import AssemblySerializer, FabricationSerializer, SubAssemblySerializer, MachineSerializer
+from .models import Fabrication, SubAssembly, Assembly, Machine
 
 from authentication.permissions import (
     FabricationPermission,
@@ -286,3 +286,19 @@ class ApprovedDataView(APIView):
         response_code = 200
 
         return Response(response_msg, response_code)
+
+
+class MachineListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        machines = Machine.objects.all()
+        serializer = MachineSerializer(machines, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = MachineSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
