@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import F
-from authentication.models import CustomUser
+from authentication.models import UserAccount
 from rest_framework.decorators import permission_classes
 import rest_framework.permissions
 from rest_framework.views import APIView
