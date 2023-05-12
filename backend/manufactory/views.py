@@ -39,6 +39,7 @@ def get_user_from_request(request):
 
 # Fabiraction view
 class FabricationDataView(APIView):
+    permission_classes = (IsAuthenticated, FabricationPermission)
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)
@@ -68,6 +69,7 @@ class FabricationDataView(APIView):
         return Response(
             {"message": "Fabrication entry created successfully"}, status=201
         )
+    @permission_classes([SuperFabricationPermission])
     def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
@@ -96,6 +98,7 @@ class FabricationDataView(APIView):
 
 # SubAssenmbly
 class SubAssemblyDataView(APIView):
+    permission_classes = (IsAuthenticated, SubAssemblyPermission)
     def get(self, request):
         # Logic to retrieve SubAssembly data
         # user = get_user_from_request(request)
@@ -137,7 +140,8 @@ class SubAssemblyDataView(APIView):
         return Response(
             {"message": "SubAssembly entry created successfully"}, status=201
         )
-
+        
+    @permission_classes([SuperAssemblyPermission])
     def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
@@ -170,7 +174,7 @@ class SubAssemblyDataView(APIView):
 # Assembly
 class AssemblyDataView(APIView):
 
-    # permission_classes = (IsAuthenticated, AssemblyPermission)
+    permission_classes = (IsAuthenticated, AssemblyPermission)
     def get(self, request):
         # Logic to retrieve Assembly data
         # user = get_user_from_request(request)
@@ -206,7 +210,7 @@ class AssemblyDataView(APIView):
         # Return a success response
         return Response({"message": "Assembly entry created successfully"}, status=201)
 
-    # @permission_classes([SuperAssemblyPermission])
+    @permission_classes([SuperAssemblyPermission])
     def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
@@ -251,6 +255,7 @@ class AssemblyDataView(APIView):
 
 
 class ApprovedDataView(APIView):
+    permission_classes = (IsAuthenticated)
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)

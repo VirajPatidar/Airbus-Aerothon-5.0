@@ -21,14 +21,14 @@ class AssemblyPermission(BasePermission):
 
 class SuperFabricationPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_superuser and request.user.user_type == "fabrication"
+        return request.user.is_officer and request.user.user_type == "fabrication"
 
 
 class SuperSubAssemblyPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_superuser and request.user.user_type == "sub-assembly"
+        return request.user.is_officer and request.user.user_type == "sub-assembly"
 
 
 class SuperAssemblyPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_superuser and request.user.user_type == "assembly"
+        return request.user.is_officer and request.user.user_type == "assembly"

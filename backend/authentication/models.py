@@ -62,7 +62,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_officer = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
+    
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
