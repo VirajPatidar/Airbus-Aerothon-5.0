@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db.models import F
 from authentication.models import UserAccount
 from rest_framework.decorators import permission_classes
-import rest_framework.permissions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -57,7 +57,7 @@ class FabricationDataView(APIView):
         item = request.data.get("item")
         raw_material = request.data.get("raw_material")
         quantity = request.data.get("quantity")
-
+        print(item,"itemitem item")
         # Create the new Fabrication entry
         new_fabrication = Fabrication.objects.create(
             item=item,
@@ -87,9 +87,9 @@ class FabricationDataView(APIView):
             Fabrication(machine_id=assembly.machine_id, old_date=current_datetime)
             for assembly in fabrications
         ]
-        print(bulk_update_data)
-        for a in bulk_update_data:
-            print("cajknajnds", a.old_date)
+        # print(bulk_update_data)
+        # for a in bulk_update_data:
+        #     print("cajknajnds", a.old_date)
         # Perform the bulk update
         Fabrication.objects.bulk_update(bulk_update_data, ["old_date"])
         print("aaya 1")
@@ -114,8 +114,12 @@ class SubAssemblyDataView(APIView):
         # Logic to create a new SubAssembly entry
         # Retrieve data from the request data
         process = request.data.get("process")
-        item_id = request.data.get("item_id")
         machine_id = request.data.get("machine_id")
+
+        # get fabrication info
+        item_id = request.data.get("item_id")
+
+
 
         # Create the new SubAssembly entry
         new_SubAssembly = SubAssembly.objects.create(
@@ -159,6 +163,8 @@ class SubAssemblyDataView(APIView):
 
 # Assembly
 class AssemblyDataView(APIView):
+
+    # permission_classes = (IsAuthenticated, AssemblyPermission)
     def get(self, request):
         # Logic to retrieve Assembly data
         # user = get_user_from_request(request)
