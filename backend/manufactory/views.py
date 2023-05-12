@@ -69,7 +69,31 @@ class FabricationDataView(APIView):
         return Response(
             {"message": "Fabrication entry created successfully"}, status=201
         )
+    def patch(self, request):
+        # Logic to update Assembly entry
+        # Retrieve data from the request data
+        id_list = request.data.get("id_list")
 
+        # Retrieve the Assembly objects based on the specified IDs
+        fabrications = Fabrication.objects.filter(machine_id__in=id_list)
+
+        # Update the old_date field to the current datetime
+        current_datetime = timezone.now()
+        # for assembly in fabrications:
+        #     assembly.old_date = current_datetime
+
+        # Prepare the bulk update data
+        bulk_update_data = [
+            Fabrication(machine_id=assembly.machine_id, old_date=current_datetime)
+            for assembly in fabrications
+        ]
+        print(bulk_update_data)
+        for a in bulk_update_data:
+            print("cajknajnds", a.old_date)
+        # Perform the bulk update
+        Fabrication.objects.bulk_update(bulk_update_data, ["old_date"])
+        print("aaya 1")
+        return Response({"message": "Assembly updated successfully"}, status=201)
 
 # SubAssenmbly
 class SubAssemblyDataView(APIView):
@@ -104,6 +128,33 @@ class SubAssemblyDataView(APIView):
         return Response(
             {"message": "SubAssembly entry created successfully"}, status=201
         )
+    def patch(self, request):
+        # Logic to update Assembly entry
+        # Retrieve data from the request data
+        id_list = request.data.get("id_list")
+
+        # Retrieve the Assembly objects based on the specified IDs
+        assemblies = SubAssembly.objects.filter(machine_id__in=id_list)
+
+        # Update the end_date field to the current datetime
+        current_datetime = timezone.now()
+        # for assembly in assemblies:
+        #     assembly.end_date = current_datetime
+
+        # Prepare the bulk update data
+        bulk_update_data = [
+            SubAssembly(machine_id=subassembly.machine_id, end_date=current_datetime)
+            for subassembly in assemblies
+        ]
+        print(bulk_update_data)
+        for a in bulk_update_data:
+            print("cajknajnds", a.end_date)
+        # Perform the bulk update
+        SubAssembly.objects.bulk_update(bulk_update_data, ["end_date"])
+        print("aaya 1")
+        return Response({"message": "SubAssembly updated successfully"}, status=201)
+
+      
 
 
 # Assembly
