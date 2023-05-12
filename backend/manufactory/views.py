@@ -24,11 +24,6 @@ from authentication.permissions import (
     AssemblyPermission,
 )
 
-## import APIView?
-
-# Create your views here.
-
-
 def get_user_from_request(request):
     # change this when auth is implemented
 
@@ -78,7 +73,7 @@ class FabricationDataView(APIView):
         id_list = request.data.get("id_list")
 
         # Retrieve the Assembly objects based on the specified IDs
-        fabrications = Fabrication.objects.filter(machine_id__in=id_list)
+        fabrications = Fabrication.objects.filter(item_id__in=id_list)
 
         # Update the old_date field to the current datetime
         current_datetime = timezone.now()
@@ -87,7 +82,7 @@ class FabricationDataView(APIView):
 
         # Prepare the bulk update data
         bulk_update_data = [
-            Fabrication(machine_id=assembly.machine_id, old_date=current_datetime)
+            Fabrication(item_id=assembly.item_id, old_date=current_datetime)
             for assembly in fabrications
         ]
         # print(bulk_update_data)
@@ -259,7 +254,7 @@ class AssemblyDataView(APIView):
 
 
 class ApprovedDataView(APIView):
-    permission_classes = (IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)

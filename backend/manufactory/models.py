@@ -83,7 +83,7 @@ class Assembly(models.Model):
     def get_process_id(self):
         if self.subassembly is not None:
             return (
-                "SAW" + self.subassembly.assembly_id + self.subassembly.get_machine_id()
+                "SAW" + str(self.subassembly.assembly_id) + self.subassembly.get_machine_id()
             )
         return None
 
