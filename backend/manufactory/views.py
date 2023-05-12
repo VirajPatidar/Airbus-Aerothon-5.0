@@ -1,15 +1,26 @@
 from django.shortcuts import render
-from backend.authentication.models import CustomUser
+from authentication.models import CustomUser
 from rest_framework.decorators import permission_classes
 import rest_framework.permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from backend.manufactory.views import get_user_from_request
-from backend.authentication.permissions import FabricationPermission, SubAssemblyPermission, AssemblyPermission, SuperAssemblyPermission, SuperFabricationPermission, SuperSubAssemblyPermission
+from authentication.permissions import (
+    FabricationPermission,
+    SubAssemblyPermission,
+    AssemblyPermission,
+    SuperAssemblyPermission,
+    SuperFabricationPermission,
+    SuperSubAssemblyPermission,
+)
 from .serializer import AssemblySerializer, FabricationSerializer, SubAssemblySerializer
+from .models import Fabrication, SubAssembly, Assembly
 
-from authentication.permissions import FabricationPermission, SuperFabricationPermission, AssemblyPermission
+from authentication.permissions import (
+    FabricationPermission,
+    SuperFabricationPermission,
+    AssemblyPermission,
+)
 
 ## import APIView?
 
@@ -23,22 +34,18 @@ def get_user_from_request(request):
 
     return CustomUser.objects.get(id=_id or 1)
 
-#Fabiraction view
+
+# Fabiraction view
 class FabricationDataView(APIView):
     def get(self, request):
         # Logic to retrieve Fabrication data
-        user = get_user_from_request(request)   
+        # user = get_user_from_request(request)
 
-        fabrications = Fabrication.objects.filter(end_date_isnull=True)
+        fabrications = Fabrication.objects.filter(out_date__isnull=True)
         serilizer = FabricationSerializer(fabrications, many=True)
+        response_msg = {"quantity": fabrications.count(), "data": serilizer.data}
 
-
-        response_msg = {
-            "quantity":fabrications.count(),
-            "data": serilizer.data
-        }
-
-        response_code = status
+        response_code = 200
 
         return Response(response_msg, response_code)
 
@@ -62,24 +69,18 @@ class FabricationDataView(APIView):
         )
 
 
-
-# SubAssenmbly 
+# SubAssenmbly
 class SubAssemblyDataView(APIView):
     def get(self, request):
         # Logic to retrieve SubAssembly data
-        user = get_user_from_request(request)   
+        # user = get_user_from_request(request)
 
-        subAssemblys = SubAssembly.objects.filter(end_date_isnull=True)
+        subAssemblys = SubAssembly.objects.filter(end_date__isnull=True)
         serilizer = SubAssemblySerializer(subAssemblys, many=True)
 
-
-        response_msg = {
-            "quantity":subAssemblys.count(),
-            "data": serilizer.data
-        }
+        response_msg = {"quantity": subAssemblys.count(), "data": serilizer.data}
 
         response_code = 200
-
 
         return Response(response_msg, response_code)
 
@@ -107,21 +108,16 @@ class SubAssemblyDataView(APIView):
 class AssemblyDataView(APIView):
     def get(self, request):
         # Logic to retrieve Assembly data
-        user = get_user_from_request(request)   
+        # user = get_user_from_request(request)
 
-        assemblys = Assembly.objects.filter(end_date_isnull=True)
+        assemblys = Assembly.objects.filter(end_date__isnull=True)
         serilizer = AssemblySerializer(Assemblys, many=True)
 
-
-        response_msg = {
-            "quantity":assemblys.count(),
-            "data": serilizer.data
-        }
+        response_msg = {"quantity": assemblys.count(), "data": serilizer.data}
 
         response_code = 200
 
-
-        return Response(response_msg, response_code)
+        return Response(response_msg, status=200)
 
     def post(self, request):
         # Logic to create a new Assembly entry
@@ -136,16 +132,13 @@ class AssemblyDataView(APIView):
         )
 
         # Return a success response
-        return Response(
-            {"message": "Assembly entry created successfully"}, status=201
-        )
+        return Response({"message": "Assembly entry created successfully"}, status=201)
 
     # @permission_classes([SuperAssemblyPermission])
-    def patch(self,request):
+    def patch(self, request):
         # Logic to update Assembly entry
         # Retrieve data from the request data
         id_list = request.data.get("id_;list")
-
 
         # Retrieve the Assembly objects based on the specified IDs
         assemblies = Assembly.objects.filter(process_id__in=ids)
@@ -157,17 +150,13 @@ class AssemblyDataView(APIView):
 
         # Prepare the bulk update data
         bulk_update_data = [
-            Assembly(id=assembly.id, end_date=F('end_date'))
-            for assembly in assemblies
+            Assembly(id=assembly.id, end_date=F("end_date")) for assembly in assemblies
         ]
 
         # Perform the bulk update
-        Assembly.objects.bulk_update(bulk_update_data, ['end_date'])
+        Assembly.objects.bulk_update(bulk_update_data, ["end_date"])
 
-
-        Response(
-            {"message": "Assembly updated successfully"}, status=201
-        )
+        Response({"message": "Assembly updated successfully"}, status=201)
 
 
 ## implement above in One view
