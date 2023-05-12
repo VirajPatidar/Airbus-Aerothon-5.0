@@ -1,6 +1,7 @@
 Report on Backend Infrastructure for Supply Chain Management
 
 TechStacks:
+
 •	Django (https://www.djangoproject.com/)
 •	Django REST Framework (https://www.django-rest-framework.org/)
 •	MySQL (https://www.mysql.com)
