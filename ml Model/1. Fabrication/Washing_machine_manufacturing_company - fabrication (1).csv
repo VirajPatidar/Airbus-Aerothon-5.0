@@ -1,0 +1,29 @@
+item,item id,raw material,Quantity,in date,out date
+tub,T101,sheet steel,10,14/02/2020,21/02/2020
+pump,T102,plastics,10,16/02/2020,20/02/2020
+spin tub,T103,stainless steel,5,27/02/2020,5/3/2020
+wash tub,T104,(enameling iron) Porcelain coating,24,27/02/2020,3/2/2020
+balance ring,T105,plastics,3,16/03/2020,21/03/2020
+transmission gears,T107,cast aluminum,20,26/03/2020,9/4/2020
+plastic brackets,T108,plastics,2,8/4/2020,12/4/2020
+tub,T109,sheet steel,10,14/02/2020,21/02/2020
+pump,T110,plastics,10,16/02/2020,20/02/2020
+spin tub,T111,steel (enameling iron) Porcelain coating,5,27/02/2020,5/3/2020
+wash tub,T112,(enameling iron) Porcelain coating,24,27/02/2020,3/2/2020
+balance ring,T113,stainless steel,2,16/03/2020,21/03/2020
+transmission gears,T115,cast aluminum,20,26/03/2020,9/4/2020
+plastic brackets,T116, plastic,2,8/4/2020,12/4/2020
+tub,T124,sheet steel,10,14/02/2020,21/02/2020
+pump,T117,plastics,10,16/02/2020,20/02/2020
+spin tub,T118,stainless steel,5,27/02/2020,5/3/2020
+wash tub,T119,(enameling iron) Porcelain coating,24,27/02/2020,3/2/2020
+balance ring,T120,porcelain enamel,8,16/03/2020,21/03/2020
+transmission gears,T122,cast aluminum,20,26/03/2020,9/4/2020
+plastic brackets,T123,plastics,3,8/4/2020,12/4/2020
+tub,T124,sheet steel,10,14/02/2020,12/3/2020
+spin tub,T125,stainless steel,5,27/02/2020,5/3/2020
+wash tub,T126,(enameling iron) Porcelain coating,24,27/02/2020,3/2/2020
+balance ring,T127,porcelain enamel,8,16/03/2020,21/03/2020
+transmission gears,T128,cast aluminum,20,26/03/2020,9/4/2020
+plastic brackets,T129,plastics,3,8/4/2020,12/4/2020
+tub,T130,sheet steel,10,14/02/2020,12/3/2020
