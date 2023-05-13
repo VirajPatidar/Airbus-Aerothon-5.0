@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import F
+from django.db import IntegrityError
 from authentication.models import UserAccount
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -60,17 +61,23 @@ class FabricationDataView(APIView):
         item = request.data.get("item")
         raw_material = request.data.get("raw_material")
         quantity = request.data.get("quantity")
+        outdate = request.data.get("out_date")
         # Create the new Fabrication entry
-        new_fabrication = Fabrication.objects.create(
-            item=item,
-            raw_material=raw_material,
-            quantity=quantity,
-        )
-
+        try:
+            new_fabrication = Fabrication.objects.create(
+                item=item,
+                raw_material=raw_material,
+                quantity=quantity,
+                out_date=outdate,
+            )
+            response_msg = {"message": "Fabrication entry created successfully"}
+            response_code = 200
+        except IntegrityError as e:
+            response_msg = {"message": "Fabrication entry already exists "}
+            response_code = 400
         # Return a success response
-        return Response(
-            {"message": "Fabrication entry created successfully"}, status=201
-        )
+
+        return Response(response_msg, response_code)
 
     # @permission_classes([SuperFabricationPermission])
     def patch(self, request):
@@ -260,6 +267,7 @@ class AssemblyDataView(APIView):
 
 class ApprovedDataView(APIView):
     permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         # Logic to retrieve Fabrication data
         # user = get_user_from_request(request)

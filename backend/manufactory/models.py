@@ -11,6 +11,9 @@ class Fabrication(models.Model):
     in_date = models.DateField(auto_now_add=True)
     out_date = models.DateField(null=True, blank=True)
 
+    class Meta:
+        unique_together = ['item', 'raw_material', 'quantity', 'in_date', 'out_date']
+
     def __str__(self):
         return self.item
 
@@ -33,8 +36,7 @@ class SubAssembly(models.Model):
     )
     process = models.CharField(
         max_length=255
-    )  # consider adding this to foregin key and make model
-    # item_id = models.CharField(max_length=50)   # change this to Foregin key after discussion
+    )
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True)
