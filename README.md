@@ -54,7 +54,7 @@ $ python manage.py migrate
 $ python manage.py scripts/populate_fabrication.py 
 $ python manage.py scripts/machine.py 
 $ python manage.py scripts/subassembly.py
-
+```
 <br />
 
 > Start the app
