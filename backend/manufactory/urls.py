@@ -5,6 +5,7 @@ from .views import (
     FabricationDataView,
     ApprovedDataView,
     MachineListView,
+    MachineDetailView,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path("assembly/", AssemblyDataView.as_view(), name="Assembly-data"),
     path("approved", ApprovedDataView.as_view(), name="Approved-data"),
     path("machine", MachineListView.as_view(), name="Machine-data"),
+    path("machines/<int:pk>/", MachineDetailView.as_view(), name="machine-detail"),
 ]
