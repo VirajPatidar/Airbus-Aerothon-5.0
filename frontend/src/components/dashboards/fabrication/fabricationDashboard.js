@@ -1,15 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ForecastChart from '../global/forecastChart';
+import InterData from './interData';
 
 //MUI
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import ForecastChart from '../global/forecastChart';
-import InterData from './interData';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 const FabricationDashboard = () => {
 
     const [interData, setInterData] = useState(null);
     const [globalData, setGlobalData] = useState(null);
+
+    const initialFormData = Object.freeze({
+        item: "",
+        raw_material: "",
+        quantity: "",
+    });
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSubmit = () => {
+        axios.post(`http://127.0.0.1:8000/api/manufactory/fabrication/`, {
+            item: formData.item,
+            raw_material: formData.raw_material,
+            quantity: formData.quantity,
+        })
+            .then((res) => {
+                window.location.reload()
+            })
+            .catch(err => {
+                if(err.response.status ===400){
+                    alert("Duplicate Entry");
+                }
+                console.log(err)
+            });
+    };
+
+    const [formData, updateFormData] = useState(initialFormData);
+    const handleChange = (e) => {
+        updateFormData({
+            ...formData,
+            [e.target.name]: e.target.value.trim(),
+        });
+    };
+
 
     useEffect(() => {
         axios.defaults.headers["Authorization"] = "JWT " + localStorage.getItem("access_token");
@@ -91,9 +141,6 @@ const FabricationDashboard = () => {
                 </Grid>
             </Box>
             <Box sx={{ display: 'flex' }}>
-                <Box>
-
-                </Box>
                 <Box sx={{ width: { xs: '100%', md: '55%' } }}>
                     <Typography variant='h5' gutterBottom>
                         Inventory Analysis
@@ -103,11 +150,62 @@ const FabricationDashboard = () => {
                 <Box ml={3} sx={{ width: { xs: '100%', md: '45%' } }}>
                     <Typography variant='h5' gutterBottom>
                         Unstamped Raw Data Generated Today
+                        <Button sx={{ marginLeft: '10px' }} variant="outlined" onClick={handleClickOpen}>
+                            Create
+                        </Button>
                     </Typography>
                     {interData && <InterData tableData={interData.data} />}
                 </Box>
             </Box>
-        </Box>
+            <Box>
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Subscribe</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            To subscribe to this website, please enter your email address here. We
+                            will send updates occasionally.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            name="item"
+                            label="Item"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            name='raw_material'
+                            label="Raw Material"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            name='quantity'
+                            label="Quantity"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={handleSubmit}>Create</Button>
+                    </DialogActions>
+                </Dialog>
+            </Box>
+        </Box >
     );
 }
 

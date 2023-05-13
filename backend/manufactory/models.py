@@ -12,7 +12,7 @@ class Fabrication(models.Model):
     out_date = models.DateField(null=True, blank=True)
 
     class Meta:
-        unique_together = ['item', 'raw_material', 'quantity', 'in_date', 'out_date']
+        unique_together = ['item', 'raw_material', 'quantity', 'in_date']
 
     def __str__(self):
         return self.item
