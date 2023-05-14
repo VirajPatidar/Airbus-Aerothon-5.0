@@ -1,7 +1,24 @@
-# Airbus-Aerothon-5.0
+# Airbus Aerothon 5.0
 
-## Problem Statement
-The manufacturing company's supply chain process generates a significant amount of redundant intermediate data, leading to storage and sustainability issues. The data produced by various departments, including logistics, planning, and forecasting, needs to be consolidated efficiently and made accessible to relevant users. A solution is required to reduce redundancy, establish data authenticity, automate data stamping, and provide domainspecific dashboards for data access and monitoring.
+## Optimising Washing Machine Manufacturing Supply Chain Using Data Lake 
+The manufacturing company's supply chain process generates a significant amount of redundant intermediate data, leading to storage and sustainability issues. The data produced by various departments, including logistics, planning, and forecasting, needs to be consolidated efficiently and made accessible to relevant users. A solution is required to reduce redundancy, establish data authenticity, automate data stamping, and provide domain specific dashboards for data access and monitoring.
+
+<br />
+
+![Implementation](https://github.com/VirajPatidar/Airbus-Aerothon-5.0/blob/main/frontend/src/images/SupplyChain.JPG)
+
+<br />
+
+### Features
+- Multirole Authentication and Authorization
+- Data Redundancy Checks
+  - Normalized Database
+  - User defined constraints aligned to business requirements
+  - Cron job scheduler to handle redundant data across departments after logical completion of cross functional business processes
+- Multiple Stakeholders
+- Interactive Dashboard
+- Responsive UI
+- Inventory Forecasting Model
 
 <br />
 
@@ -19,19 +36,31 @@ The manufacturing company's supply chain process generates a significant amount 
 - [MUI](https://mui.com/)
 - [Axios](https://axios-http.com/)
 
-<br />
+
+<br/>
+
+## Contributors
+| Sr. No. | Name     | GitHub |
+| ------ | -------- | ----------- |
+| 1.     | Viraj Patidar | [@VirajPatidar](https://github.com/VirajPatidar) |
+| 2.     | Somya Malgudi | [@Sage-2001](https://github.com/Sage-2001)|
+| 3.     | Om Khade | [@khadeom](https://github.com/khadeom)|
+| 4.     | Rishav Kumar | [@HappY-FaceS](https://github.com/HappY-FaceS)|
+
+<br/>
+
 
 ## Setup
 
 ```bash
-$ # Clone the Repository
+# Clone the Repository
 $ git clone https://github.com/VirajPatidar/Airbus-Aerothon-5.0.git 
 $ cd Airbus-Aerothon-5.0
 ```
 
 ### Backend
 
-> #### `Unix`, `Linux`, `MacOS` 
+> #### Setup: Linux, Unix 
 ```bash
 $ cd backend
 $ pip install virtualenv
@@ -40,7 +69,7 @@ $ source env/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
-> #### `Windows` 
+> #### Setup: Windows
 ```
 $ cd backend
 $ pip install virtualenv
@@ -54,16 +83,13 @@ $ pip install -r requirements.txt
 ```bash
 $ python manage.py makemigrations
 $ python manage.py migrate
-```
-
-> Populate Database with sample data via scripts
-```bash
+# Populate database with sample data via scripts
 $ python manage.py scripts/populate_fabrication.py 
 $ python manage.py scripts/machine.py 
 $ python manage.py scripts/subassembly.py
 ```
 
-> Run the Backend Server
+> #### Run the Backend Server
 
 ```bash
 $ python manage.py runserver
@@ -82,5 +108,3 @@ $ npm start
 ```
 
 <br />
-
-[video presentation](https://drive.google.com/file/d/1lg_8satarY9BJLqzXiN3Jzw8iF67p2fL/view?usp=share_link)
