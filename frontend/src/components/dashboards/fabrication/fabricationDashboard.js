@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ForecastChart from '../global/forecastChart';
 import InterData from './interData';
+import { useRecoilValue } from 'recoil';
+import { userData } from '../../../atoms';
 
 //MUI
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -16,6 +18,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const FabricationDashboard = () => {
 
+    const user = useRecoilValue(userData);
     const [interData, setInterData] = useState(null);
     const [globalData, setGlobalData] = useState(null);
 
@@ -45,7 +48,7 @@ const FabricationDashboard = () => {
                 window.location.reload()
             })
             .catch(err => {
-                if(err.response.status ===400){
+                if (err.response.status === 400) {
                     alert("Duplicate Entry");
                 }
                 console.log(err)
@@ -87,8 +90,8 @@ const FabricationDashboard = () => {
     }, [])
 
     return (
-        <Box m={5}>
-            <Box sx={{ my: 5, pb: 5, px: 10 }}>
+        <Container>
+            <Box my={5}>
                 <Grid container spacing={6}>
                     <Grid item xs={12} sm={6} md={3}>
                         <Card raised sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#ffe082' }}>
@@ -140,30 +143,32 @@ const FabricationDashboard = () => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box sx={{ display: 'flex' }}>
-                <Box sx={{ width: { xs: '100%', md: '55%' } }}>
-                    <Typography variant='h5' gutterBottom>
-                        Inventory Analysis
-                    </Typography>
-                    <ForecastChart />
-                </Box>
-                <Box ml={3} sx={{ width: { xs: '100%', md: '45%' } }}>
-                    <Typography variant='h5' gutterBottom>
-                        Unstamped Raw Data Generated Today
+            <Box mt={10}>
+                <Typography variant='h5' gutterBottom>
+                    Inventory Analysis and Forecast
+                </Typography>
+                <ForecastChart />
+            </Box>
+            <Box mt={10}>
+                <Typography variant='h5' gutterBottom>
+                    Unstamped Raw Data Generated Today
+                    <Button sx={{ marginLeft: '10px' }} variant="outlined" onClick={handleClickOpen}>
+                        Create
+                    </Button>
+                    {user.is_officer &&
                         <Button sx={{ marginLeft: '10px' }} variant="outlined" onClick={handleClickOpen}>
-                            Create
+                            Stamp Data
                         </Button>
-                    </Typography>
-                    {interData && <InterData tableData={interData.data} />}
-                </Box>
+                    }
+                </Typography>
+                {interData && <InterData tableData={interData.data} />}
             </Box>
             <Box>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Subscribe</DialogTitle>
+                    <DialogTitle>Create Item</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We
-                            will send updates occasionally.
+                            Create an Item for Stamping
                         </DialogContentText>
                         <TextField
                             autoFocus
@@ -205,7 +210,7 @@ const FabricationDashboard = () => {
                     </DialogActions>
                 </Dialog>
             </Box>
-        </Box >
+        </Container >
     );
 }
 
