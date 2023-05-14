@@ -1,24 +1,19 @@
 # Airbus-Aerothon-5.0
 
-## ✨ How to use it
+## Problem Statement
+The manufacturing company's supply chain process generates a significant amount of redundant intermediate data, leading to storage and sustainability issues. The data produced by various departments, including logistics, planning, and forecasting, needs to be consolidated efficiently and made accessible to relevant users. A solution is required to reduce redundancy, establish data authenticity, automate data stamping, and provide domainspecific dashboards for data access and monitoring.
 
-> Download the code 
+## Setup
 
 ```bash
-$ # Get the code
+$ # Clone the Repository
 $ git clone https://github.com/VirajPatidar/Airbus-Aerothon-5.0.git 
 $ cd Airbus-Aerothon-5.0
 ```
 
-<br />
+### Backend
 
-# Backend
-
-### 👉 Set Up for `Unix`, `MacOS` 
-
-
-> Install modules via `VENV`  
-
+> #### `Unix`, `Linux`, `MacOS` 
 ```bash
 $ cd backend
 $ pip install virtualenv
@@ -26,10 +21,8 @@ $ virtualenv env
 $ source env/bin/activate
 $ pip3 install -r requirements.txt
 ```
-### 👉 Set Up for `Windows` 
 
-> Install modules via `VENV` (windows) 
-
+> #### `Windows` 
 ```
 $ cd backend
 $ pip install virtualenv
@@ -38,26 +31,21 @@ $ .\env\Scripts\activate
 $ pip install -r requirements.txt
 ```
 
-<br />
-
-> Set Up Database
+> #### Database
 
 ```bash
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
 
-<br />
-
-> Generate sample data using scripts
+> Populate Database with sample data via scripts
 ```bash
 $ python manage.py scripts/populate_fabrication.py 
 $ python manage.py scripts/machine.py 
 $ python manage.py scripts/subassembly.py
 ```
-<br />
 
-> Start the app
+> Run the Backend Server
 
 ```bash
 $ python manage.py runserver
@@ -69,7 +57,7 @@ At this point, the backend server runs at `http://127.0.0.1:8000/`.
 
 # Frontend
 
-> Install modules 
+> Install Node Modules 
 ```bash
 $ cd frontend
 $ npm install
