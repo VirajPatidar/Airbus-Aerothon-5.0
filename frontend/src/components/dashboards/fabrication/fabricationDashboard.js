@@ -4,6 +4,7 @@ import ForecastChart from '../global/forecastChart';
 import InterData from './interData';
 import { useRecoilValue } from 'recoil';
 import { userData } from '../../../atoms';
+import GlobalStamped from '../global/globalStamped';
 
 //MUI
 import { Box, Card, CardContent, Container, Grid, Typography } from '@mui/material';
@@ -14,6 +15,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 
 
 const FabricationDashboard = () => {
@@ -84,6 +89,11 @@ const FabricationDashboard = () => {
             ...formData,
             [e.target.name]: e.target.value.trim(),
         });
+    };
+
+    const [value, setValue] = useState('1');
+    const handleChange2 = (event, newValue) => {
+        setValue(newValue);
     };
 
 
@@ -247,7 +257,7 @@ const FabricationDashboard = () => {
                             type="text"
                             fullWidth
                             variant="standard"
-                            onChange={(e)=> setStamps(e.target.value.trim())}
+                            onChange={(e) => setStamps(e.target.value.trim())}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -255,6 +265,31 @@ const FabricationDashboard = () => {
                         <Button variant='contained' onClick={handleSubmit2}>Stamp</Button>
                     </DialogActions>
                 </Dialog>
+            </Box>
+            <Box my={10}>
+                <Typography variant='h5' gutterBottom>
+                    GLobal Stamped Data
+                </Typography>
+                <Box sx={{ width: '100%', typography: 'body1' }}>
+                    <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList onChange={handleChange2} aria-label="lab API tabs example">
+                                <Tab label="Fabrication" value="1" />
+                                <Tab label="Sub Assembly" value="2" />
+                                <Tab label="Assembly" value="3" />
+                            </TabList>
+                        </Box>
+                        <TabPanel value="1">
+                            {globalData && <GlobalStamped tableData={globalData.fabrications.data} /> }
+                        </TabPanel>
+                        <TabPanel value="2">
+                            {globalData && <GlobalStamped tableData={globalData.sub_assembly.data} /> }
+                        </TabPanel>
+                        <TabPanel value="3">
+                            {globalData && <GlobalStamped tableData={globalData.assembly.data} /> }
+                        </TabPanel>
+                    </TabContext>
+                </Box>
             </Box>
         </Container >
     );
