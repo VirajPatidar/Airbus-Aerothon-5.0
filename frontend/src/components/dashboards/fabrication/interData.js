@@ -37,10 +37,11 @@ export default function InterData({ tableData }) {
             <Table sx={{ minWidth: 200 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell>Item ID</StyledTableCell>
                         <StyledTableCell>Item</StyledTableCell>
-                        <StyledTableCell align="right">Raw Material</StyledTableCell>
-                        <StyledTableCell align="right">Quantity</StyledTableCell>
-                        <StyledTableCell align="right">In Date</StyledTableCell>
+                        <StyledTableCell>Raw Material</StyledTableCell>
+                        <StyledTableCell>Quantity</StyledTableCell>
+                        <StyledTableCell>In Date</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -48,13 +49,12 @@ export default function InterData({ tableData }) {
                         <StyledTableRow
                             key={idx}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <StyledTableCell component="th" scope="row">
-                                {row.item}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.raw_material}</StyledTableCell>
-                            <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                            <StyledTableCell align="right">{row.in_date}</StyledTableCell>
+                            >
+                            <StyledTableCell component="th" scope="row">{row.item_id}</StyledTableCell>
+                            <StyledTableCell component="th" scope="row">{row.item}</StyledTableCell>
+                            <StyledTableCell>{row.raw_material}</StyledTableCell>
+                            <StyledTableCell>{row.quantity}</StyledTableCell>
+                            <StyledTableCell>{row.in_date}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

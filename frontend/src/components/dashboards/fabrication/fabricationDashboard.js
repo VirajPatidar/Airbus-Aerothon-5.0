@@ -22,6 +22,8 @@ const FabricationDashboard = () => {
     const [interData, setInterData] = useState(null);
     const [globalData, setGlobalData] = useState(null);
 
+    const [stamps, setStamps] = useState('');
+
     const initialFormData = Object.freeze({
         item: "",
         raw_material: "",
@@ -29,6 +31,7 @@ const FabricationDashboard = () => {
     });
 
     const [open, setOpen] = React.useState(false);
+    const [open2, setOpen2] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,6 +39,26 @@ const FabricationDashboard = () => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpen2 = () => {
+        setOpen2(true);
+    };
+
+    const handleClose2 = () => {
+        setOpen2(false);
+    };
+
+    const handleSubmit2 = () => {
+        axios.patch(`http://127.0.0.1:8000/api/manufactory/fabrication/`, {
+            id_list: stamps.split(',').map(Number),
+        })
+            .then((res) => {
+                window.location.reload()
+            })
+            .catch(err => {
+                console.log(err)
+            });
     };
 
     const handleSubmit = () => {
@@ -156,7 +179,7 @@ const FabricationDashboard = () => {
                         Create
                     </Button>
                     {user.is_officer &&
-                        <Button sx={{ marginLeft: '10px' }} variant="outlined" onClick={handleClickOpen}>
+                        <Button sx={{ marginLeft: '10px' }} variant="outlined" onClick={handleClickOpen2}>
                             Stamp Data
                         </Button>
                     }
@@ -205,8 +228,31 @@ const FabricationDashboard = () => {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleSubmit}>Create</Button>
+                        <Button variant='outlined' onClick={handleClose}>Cancel</Button>
+                        <Button variant='contained' onClick={handleSubmit}>Create</Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog open={open2} onClose={handleClose2}>
+                    <DialogTitle>Stamp Item</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Enter the Item IDs separated by commas for the items you would like to stamp and approve. Example: '1,4,8'
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            name="item"
+                            label="Item"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={(e)=> setStamps(e.target.value.trim())}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant='outlined' onClick={handleClose2}>Cancel</Button>
+                        <Button variant='contained' onClick={handleSubmit2}>Stamp</Button>
                     </DialogActions>
                 </Dialog>
             </Box>
